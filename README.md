@@ -203,7 +203,7 @@ See `requirements.txt` for full package list.
 If you use this work, please cite:
 
 ```bibtex
-@misc{knee_arthroplasty_rag_2024,
+@misc{knee_arthroplasty_rag_2026,
   title     = {RAG-Based Clinical Decision Support for Knee Arthroplasty},
   author    = {Rushikesh Khot, Teena Sharma},
   year      = {2026},
