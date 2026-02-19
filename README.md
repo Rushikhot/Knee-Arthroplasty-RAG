@@ -76,26 +76,26 @@ knee-arthroplasty-rag/
 │
 ├── src/
 │   ├── __init__.py
-│   ├── indexer.py            # Phase 1 — chunking + FAISS index
-│   ├── retriever.py          # Phase 3 — dense retrieval + reranking
-│   ├── generator.py          # Phase 3 — prompt + LLM generation
-│   ├── evaluator.py          # Phase 4 — ROUGE, BERTScore, METEOR
-│   └── logger.py             # Excel experiment logging
+│   ├── indexer.py            
+│   ├── retriever.py          
+│   ├── generator.py          
+│   ├── evaluator.py         
+│   └── logger.py             
 │
 ├── tuning/
-│   └── tune_hyperparams.py   # Phase 2 — hyperparameter search
+│   └── tune_hyperparams.py   
 │
 ├── configs/
-│   ├── default_params.json   # Default hyperparameters
-│   └── best_params.json      # Saved after tuning
+│   ├── default_params.json  
+│   └── best_params.json     
 │
 ├── experiments/
-│   └── results.xlsx          # Logged experiment outputs
+│   └── results.xlsx          
 │
 ├── notebooks/
-│   └── demo.ipynb            # Colab-ready demo notebook
+│   └── demo.ipynb            
 │
-└── main.py                   # End-to-end pipeline entry point
+└── main.py                   
 ```
 
 ---
@@ -196,7 +196,7 @@ All results are logged to `experiments/results.xlsx`.
 
 See `requirements.txt` for full package list.
 
----
+
 
 ## Citation
 
@@ -205,9 +205,9 @@ If you use this work, please cite:
 ```bibtex
 @misc{knee_arthroplasty_rag_2024,
   title     = {RAG-Based Clinical Decision Support for Knee Arthroplasty},
-  author    = {Your Name},
-  year      = {2024},
-  note      = {IIT Guwahati -- AIIMS Collaboration},
+  author    = {Rushikesh Khot, Teena Sharma},
+  year      = {2026},
+  note      = {IIT Guwahati -- AIIMS Guwahati Collaboration},
   url       = {https://github.com/your-username/knee-arthroplasty-rag}
 }
 ```
@@ -218,8 +218,7 @@ If you use this work, please cite:
 
 This project is for **research and educational purposes only**. Clinical decisions should always be made by qualified medical professionals.
 
----
 
 ## Acknowledgements
 
-Developed as part of a research collaboration between **IIT Guwahati** and **AIIMS**.
+Developed as part of a research collaboration between **IIT Guwahati** and **AIIMS Guwahati**.
