@@ -202,12 +202,12 @@ See `requirements.txt` for full package list.
 If you use this work, please cite:
 
 ```bibtex
-@misc{knee_arthroplasty_rag_2026,
+@misc{OrthoDecisionAI 2026,
   title     = {RAG-Based Clinical Decision Support for Knee Arthroplasty},
-  author    = {Rushikesh Khot, Teena Sharma},
+  author    = {Teena Sharma, Rushikesh Khot},
   year      = {2026},
-  note      = {IIT Guwahati -- AIIMS Guwahati Collaboration},
-  url       = {https://github.com/your-username/knee-arthroplasty-rag}
+  note      = {IIT Guwahati - AIIMS Guwahati Collaboration},
+  url       = {https://github.com/Rushikesh Khot/knee-arthroplasty-rag}
 }
 ```
 
