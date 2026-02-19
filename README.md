@@ -2,7 +2,7 @@
 A Retrieval-Augmented Generation (RAG) pipeline for orthopedic clinical decision support built on MedGemma-27B and evaluated against vanilla LLM inference.
 ## Overview
 
-This system retrieves relevant passages from a curated corpus of knee arthroplasty textbooks and guidelines then generates grounded answers using a large language model. It includes hyperparameter tuning, cross-encoder reranking, and evaluation (ROUGE, BERTScore, METEOR).
+This system retrieves relevant passages from a curated corpus of knee arthroplasty textbooks and guidelines then generates answers using a large language model. It includes hyperparameter tuning, cross-encoder reranking, and evaluation (ROUGE, BERTScore, METEOR).
 
 
 ## Architecture
