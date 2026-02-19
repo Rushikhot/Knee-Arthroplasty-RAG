@@ -1,10 +1,9 @@
-# Knee-Arthroplasty-RAG
-A Retrieval-Augmented Generation (RAG) pipeline for orthopedic clinical decision support, built on MedGemma-27B and evaluated against vanilla LLM inference.
+# OrthoDecisionAI Knee-Arthroplasty-RAG
+A Retrieval-Augmented Generation (RAG) pipeline for orthopedic clinical decision support built on MedGemma-27B and evaluated against vanilla LLM inference.
 ## Overview
 
-This system retrieves relevant passages from a curated corpus of knee arthroplasty textbooks and guidelines, then generates grounded answers using a large language model. It includes hyperparameter tuning, cross-encoder reranking, and comprehensive evaluation (ROUGE, BERTScore, METEOR).
+This system retrieves relevant passages from a curated corpus of knee arthroplasty textbooks and guidelines then generates grounded answers using a large language model. It includes hyperparameter tuning, cross-encoder reranking, and evaluation (ROUGE, BERTScore, METEOR).
 
----
 
 ## Architecture
 
@@ -104,7 +103,7 @@ knee-arthroplasty-rag/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/knee-arthroplasty-rag.git
+git clone https://github.com/Rushikhot/knee-arthroplasty-rag.git
 cd knee-arthroplasty-rag
 ```
 
