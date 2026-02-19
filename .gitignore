@@ -1,0 +1,69 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data — PDFs not uploaded (copyright)
+data/*.pdf
+data/*.txt
+data/*.md
+!data/README.md
+
+# Cache — large binary files
+cache/
+*.pkl
+*.faiss
+
+# Model weights
+*.bin
+*.safetensors
+*.pt
+*.pth
+
+# HuggingFace cache
+.cache/
+~/.cache/huggingface/
+
+# Experiment outputs
+experiments/*.xlsx
+experiments/*.csv
+
+# Configs with sensitive info
+configs/best_params.json
+
+# Google Drive / Colab
+*.gdrive
+drive/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
