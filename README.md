@@ -204,7 +204,7 @@ If you use this work, please cite:
 ```bibtex
 @misc{OrthoDecisionAI 2026,
   title     = {RAG-Based Clinical Decision Support for Knee Arthroplasty},
-  author    = {Teena Sharma, Rushikesh Khot},
+  author    = {Dr.Plaban Nath Chowdhury, Dr.Teena Sharma, Rushikesh Khot},
   year      = {2026},
   note      = {IIT Guwahati - AIIMS Guwahati Collaboration},
   url       = {https://github.com/Rushikesh Khot/knee-arthroplasty-rag}
