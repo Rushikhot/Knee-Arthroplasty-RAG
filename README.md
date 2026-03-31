@@ -149,11 +149,10 @@ Open `notebooks/demo.ipynb` directly in [Google Colab](https://colab.research.go
 
 | Parameter | Search Space | Default |
 |-----------|-------------|---------|
-| `chunk_size` | 400, 500, 800 | 500 |
-| `chunk_overlap` | 50, 100 | 100 |
-| `top_k` | 3, 5, 7 | 5 |
+| `chunk_size` | 600, 800, 1000, 1200 | 1200 |
+| `chunk_overlap` | 100, 150, 200 | 150 |
+| `top_k` | 5, 7, 10, 12 | 12 |
 | `rerank_enabled` | True, False | True |
-| `temperature` | — | 0.0 |
 
 Tuning selects the best combination using **BERTScore F1** over a held-out tuning set of 5 clinical queries.
 
@@ -181,8 +180,8 @@ All results are logged to `experiments/results.xlsx`.
 
 | Component | Model |
 |-----------|-------|
-| Embedding | `sentence-transformers/all-mpnet-base-v2` |
-| Reranker | `cross-encoder/ms-marco-MiniLM-L-6-v2` |
+| Embedding | `BAAI/bge-m3` |
+| Reranker | `BAAI/bge-reranker-v2-m3` |
 | LLM | `google/medgemma-27b-it` |
 
 ---
