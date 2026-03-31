@@ -17,7 +17,7 @@ Text Extraction + Cleaning
 Recursive Chunking  ──── chunk_size, chunk_overlap
     │
     ▼
-Sentence Transformer Embeddings  ── all-mpnet-base-v2
+Sentence Transformer Embeddings  ── BAAI/bge-m3
     │
     ▼
 FAISS Index  ◄──────── Cached to disk
@@ -27,7 +27,7 @@ FAISS Index  ◄──────── Cached to disk
 Dense Retrieval (Inner Product Search)
     │
     ▼
-Cross-Encoder Reranking  ── ms-marco-MiniLM-L-6-v2
+Cross-Encoder Reranking  ── BAAI/bge-reranker-v2-m3
     │
     ▼
 Prompt Construction + MedGemma-27B Generation
