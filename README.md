@@ -1,222 +1,159 @@
-# OrthoDecisionAI Knee-Arthroplasty-RAG
-A Retrieval-Augmented Generation (RAG) pipeline for orthopedic clinical decision support built on MedGemma-27B and evaluated against vanilla LLM inference.
+# Knee Arthroplasty RAG
+
+A Retrieval-Augmented Generation (RAG) system for clinical question answering in knee arthroplasty, developed as part of a collaboration between **IIT Guwahati** and **AIIMS**. The system retrieves evidence from a curated corpus of orthopaedic textbooks and generates grounded answers using **MedGemma-27B**.
+
+---
+
 ## Overview
 
-This system retrieves relevant passages from a curated corpus of knee arthroplasty textbooks and guidelines then generates answers using a large language model. It includes hyperparameter tuning, cross-encoder reranking, and evaluation (ROUGE, BERTScore, METEOR).
-
-
-## Architecture
+The pipeline ingests PDF textbooks, chunks and embeds them using **BAAI/bge-m3**, indexes them in **FAISS**, optionally reranks retrieved chunks with a **cross-encoder (bge-reranker-v2-m3)**, and feeds the context to MedGemma to generate answers. An ablation study compares RAG against vanilla LLM generation across ROUGE, BERTScore, and METEOR metrics.
 
 ```
-PDF Corpus
-    │
-    ▼
-Text Extraction + Cleaning
-    │
-    ▼
-Recursive Chunking  ──── chunk_size, chunk_overlap
-    │
-    ▼
-Sentence Transformer Embeddings  ── BAAI/bge-m3
-    │
-    ▼
-FAISS Index  ◄──────── Cached to disk
-    │
-    │  Query
-    ▼
-Dense Retrieval (Inner Product Search)
-    │
-    ▼
-Cross-Encoder Reranking  ── BAAI/bge-reranker-v2-m3
-    │
-    ▼
-Prompt Construction + MedGemma-27B Generation
-    │
-    ▼
-Answer + Citations
-    │
-    ▼
-Evaluation: ROUGE / BERTScore / METEOR
+PDF Documents
+     │
+     ▼
+ Chunking (RecursiveCharacterTextSplitter)
+     │
+     ▼
+ Embeddings (BAAI/bge-m3)  ──► FAISS Index
+                                    │
+                          Query Embedding
+                                    │
+                          FAISS Search (top-k × 2)
+                                    │
+                          Cross-Encoder Reranking
+                                    │
+                          Context Assembly
+                                    │
+                          MedGemma-27B Generation
+                                    │
+                          Answer + Citations
 ```
 
 ---
 
-## Document Corpus
+## Knowledge Base
 
-| Book | Author | Year |
-|------|--------|------|
-| Insall & Scott Surgery of the Knee | W. Norman Scott | 2018 |
-| AAOS Surgical Management Guidelines | AAOS | 2022 |
-| Campbell's Operative Orthopaedics | Azar & Beaty | 2021 |
+| Textbook | Author | Year |
+|---|---|---|
+| Insall & Scott Surgery of the Knee (6e) | W. Norman Scott | 2018 |
+| Surgical Management of Osteoarthritis of the Knee | AAOS | 2022 |
+| Campbell's Operative Orthopaedics (14e) | Azar & Beaty | 2021 |
 | Master Techniques: Knee Arthroplasty | Pagnano & Hanssen | 2019 |
 | Noyes' Knee Disorders | Frank R. Noyes | 2017 |
 | Partial Knee Arthroplasty | Berend & Cushner | 2022 |
 | Total Knee Arthroplasty | Richard D. Scott | 2015 |
 | Unicompartmental Knee Arthroplasty | Tad L. Gerlinger | 2020 |
 
-> **Note:** PDFs are not included in this repository due to copyright. Please obtain them independently and place them in `data/`.
-
----
-
-## Repository Structure
-
-```
-knee-arthroplasty-rag/
-│
-├── README.md
-├── requirements.txt
-├── .gitignore
-│
-├── data/
-│   └── README.md              # Instructions to add PDFs manually
-│
-├── cache/
-│   └── .gitkeep              
-│
-├── src/
-│   ├── __init__.py
-│   ├── indexer.py            
-│   ├── retriever.py          
-│   ├── generator.py          
-│   ├── evaluator.py         
-│   └── logger.py             
-│
-├── tuning/
-│   └── tune_hyperparams.py   
-│
-├── configs/
-│   ├── default_params.json  
-│   └── best_params.json     
-│
-├── experiments/
-│   └── results.xlsx          
-│
-├── notebooks/
-│   └── demo.ipynb            
-│
-└── main.py                   
-```
-
----
-
-## Installation
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/Rushikhot/knee-arthroplasty-rag.git
-cd knee-arthroplasty-rag
-```
-
-### 2. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Add Documents
-Place your PDF files in the `data/` folder. File names must match exactly as listed in `src/indexer.py` metadata config.
-
-### 4. Authenticate HuggingFace (for MedGemma)
-```bash
-huggingface-cli login
-```
-> MedGemma-27B requires access approval at [huggingface.co/google/medgemma-27b-it](https://huggingface.co/google/medgemma-27b-it)
-
----
-
-## Usage
-
-### Run Full Pipeline
-```bash
-python main.py --query "What are the indications for unicompartmental knee arthroplasty?"
-```
-
-### Run with Custom Config
-```bash
-python main.py --query "Your query here" --config configs/best_params.json
-```
-
-### Run Hyperparameter Tuning
-```bash
-python tuning/tune_hyperparams.py
-```
-
-### Run on Google Colab
-Open `notebooks/demo.ipynb` directly in [Google Colab](https://colab.research.google.com). Mount your Google Drive and point `DOC_FOLDER` to your PDF location.
-
----
-
-## Hyperparameters
-
-| Parameter | Search Space | Default |
-|-----------|-------------|---------|
-| `chunk_size` | 600, 800, 1000, 1200 | 1200 |
-| `chunk_overlap` | 100, 150, 200 | 150 |
-| `top_k` | 5, 7, 10, 12 | 12 |
-| `rerank_enabled` | True, False | True |
-
-Tuning selects the best combination using **BERTScore F1** over a held-out tuning set of 5 clinical queries.
-
----
-
-## Evaluation
-
-The system runs an **ablation study** comparing:
-
-| Configuration | Description |
-|--------------|-------------|
-| **RAG** | Retrieval + reranking + grounded generation |
-| **Vanilla** | Direct LLM generation without retrieval |
-
-**Metrics computed:**
-- ROUGE-1, ROUGE-2, ROUGE-L (Precision, Recall, F1)
-- BERTScore (Precision, Recall, F1)
-- METEOR
-
-All results are logged to `experiments/results.xlsx`.
+> PDFs are not included in this repository. Place them in `data/` before running.
 
 ---
 
 ## Models
 
-| Component | Model |
-|-----------|-------|
-| Embedding | `BAAI/bge-m3` |
-| Reranker | `BAAI/bge-reranker-v2-m3` |
+| Role | Model |
+|---|---|
 | LLM | `google/medgemma-27b-it` |
+| Embeddings | `BAAI/bge-m3` |
+| Reranker | `BAAI/bge-reranker-v2-m3` |
+
+> MedGemma requires a Hugging Face account with access granted. Run `huggingface-cli login` before use.
 
 ---
 
-## Requirements
+## Repo Structure
 
-- Python 3.9+
-- CUDA-compatible GPU (recommended: A100 40GB for MedGemma-27B)
-- Google Drive (if using Colab)
-
-See `requirements.txt` for full package list.
-
-
-
-## Citation
-
-If you use this work, please cite:
-
-```bibtex
-@misc{OrthoDecisionAI 2026,
-  title     = {RAG-Based Clinical Decision Support for Knee Arthroplasty},
-  author    = {Dr.Plaban Nath Chowdhury, Dr.Teena Sharma, Rushikesh Khot},
-  year      = {2026},
-  note      = {IIT Guwahati - AIIMS Guwahati Collaboration},
-  url       = {https://github.com/Rushikesh Khot/knee-arthroplasty-rag}
-}
+```
+knee-arthroplasty-rag/
+│
+├── README.md
+├── .gitignore
+├── requirements.txt
+│
+├── src/
+│   ├── loader.py        # PDF ingestion, text cleaning, chunking, PageSource
+│   ├── indexer.py       # CacheManager + OptimizedRAGIndexer (FAISS + cross-encoder)
+│   ├── generator.py     # rag_generate(), vanilla_query(), prompt templates
+│   ├── tuner.py         # OptimizedParameterTuner, hyperparameter search
+│   └── evaluator.py     # ComprehensiveEvaluator, ExperimentLogger (Excel)
+│
+├── scripts/
+│   ├── build_index.py   # Load PDFs → build & cache FAISS index
+│   ├── run_tuning.py    # Hyperparameter search → saves best_params.json
+│   └── run_evaluation.py # Ablation study (RAG vs Vanilla) → Excel results
+│
+├── configs/
+│   └── config.yaml      # All paths, model names, default hyperparameters
+│
+├── notebooks/
+│   └── rag_llm_final_iitg_aiims.ipynb  # Original Colab notebook
+│
+├── data/                # Place PDF textbooks here (gitignored)
+├── cache/               # Auto-created: chunked embeddings (gitignored)
+└── outputs/             # Auto-created: Excel logs, best_params.json (gitignored)
 ```
 
 ---
 
-## License
+## Setup
 
-This project is for **research and educational purposes only**. Clinical decisions should always be made by qualified medical professionals.
+```bash
+git clone https://github.com/your-org/knee-arthroplasty-rag.git
+cd knee-arthroplasty-rag
+pip install -r requirements.txt
+```
 
+**Requirements summary:** `torch`, `transformers`, `sentence-transformers`, `faiss-cpu`, `langchain-text-splitters`, `pdfplumber`, `PyPDF2`, `rouge-score`, `bert-score`, `evaluate`, `nltk`, `pandas`, `openpyxl`, `tqdm`
 
-## Acknowledgements
+---
 
-Developed as part of a research collaboration between **IIT Guwahati** and **AIIMS Guwahati**.
+## Usage
+
+### 1. Build the index
+```bash
+python scripts/build_index.py --data_dir data/ --cache_dir cache/
+```
+
+### 2. Tune hyperparameters
+```bash
+python scripts/run_tuning.py --output outputs/best_params.json
+```
+Searches over chunk size, chunk overlap, top-k retrieval, and reranking on/off. Optimises for **ROUGE-L F1**.
+
+### 3. Run evaluation
+```bash
+python scripts/run_evaluation.py --params outputs/best_params.json --output outputs/results.xlsx
+```
+Runs an ablation study comparing **RAG vs Vanilla** across all test queries and logs ROUGE-1/2/L, BERTScore, and METEOR to an Excel file.
+
+---
+
+## Hyperparameter Search Space
+
+| Parameter | Values |
+|---|---|
+| `chunk_size` | 600, 800, 1000, 1200 |
+| `chunk_overlap` | 100, 150, 200 |
+| `top_k` | 5, 7, 10, 12 |
+| `rerank_enabled` | True, False |
+
+Default best found: `chunk_size=1000`, `chunk_overlap=100`, `top_k=12`, `rerank_enabled=True`
+
+---
+
+## Evaluation Metrics
+
+- **ROUGE-1, ROUGE-2, ROUGE-L** — n-gram overlap with ground truth
+- **BERTScore** — contextual semantic similarity
+- **METEOR** — unigram overlap with synonym matching
+- **Retrieval metrics** — FAISS cosine similarity and cross-encoder scores per query
+
+Results are logged row-by-row to an Excel sheet (`outputs/results.xlsx`) for easy analysis.
+
+---
+
+## Notes
+
+- The system was built and tested on **Google Colab** with an A100 GPU. MedGemma-27B requires ~40 GB VRAM; use `bfloat16` and `device_map="auto"`.
+- Chunk embeddings and FAISS indices are cached to disk so subsequent runs skip re-embedding.
+- The `</think>` tag stripping handles any residual chain-of-thought output from MedGemma.
