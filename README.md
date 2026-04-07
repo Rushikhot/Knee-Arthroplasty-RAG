@@ -157,7 +157,7 @@ Results for both **RAG** and **Vanilla** configurations are logged per-query to 
 If you use this code in your research, please cite:
 
 ```bibtex
-@misc{knee_arthroplasty_rag_2025,
+@misc{knee_arthroplasty_rag_2026,
   title   = {RAG-Augmented Clinical Q\&A for Knee Arthroplasty},
   author  = {Rushikesh Khot, Dr.Teena sharma , Dr.Plaban Nath Chowdhury  Dr.Rajesh malhotra },
   year    = {2026},
