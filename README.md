@@ -1,6 +1,6 @@
 # Knee Arthroplasty RAG Pipeline
 
-> **RAG-augmented clinical Q&A for Knee Arthroplasty** — IIT Guwahati × AIIMS  
+> **RAG-augmented clinical Q&A for Knee Arthroplasty** 
 > Embedding: `BAAI/bge-m3` · Reranker: `BAAI/bge-reranker-v2-m3` · LLM: `google/medgemma-27b-it`
 
 ---
@@ -36,26 +36,26 @@ PDFs ──► pdfplumber ──► clean_text ──► RecursiveCharacterTextS
 ```
 rag-knee-arthroplasty/
 │
-├── main.py                        # Runnable entry-point (Colab + local)
+├── main.py                       
 ├── requirements.txt
 │
 ├── src/
 │   ├── __init__.py
-│   ├── config.py                  # All paths & model names
-│   ├── data_io.py                 # PDF loading, cleaning, chunking
-│   ├── cache_manager.py           # Pickle-based embedding cache
-│   ├── indexer.py                 # FAISS index + cross-encoder reranking
-│   ├── rag_pipeline.py            # rag_query / rag_generate / vanilla_query
-│   ├── evaluation.py              # ROUGE / BERTScore / METEOR + ablation study
-│   ├── tuner.py                   # Grid-search hyperparameter tuner
-│   └── test_queries.py            # 15 clinical queries + ground truths
+│   ├── config.py                 
+│   ├── data_io.py                
+│   ├── cache_manager.py          
+│   ├── indexer.py                 
+│   ├── rag_pipeline.py           
+│   ├── evaluation.py             
+│   ├── tuner.py                   
+│   └── test_queries.py           
 │
 ├── notebooks/
-│   └── colab_pipeline.ipynb       # One-click Colab notebook
+│   └── RAG_LLM_FINAL_IITG_AIIMS.ipynb      
 │
 ├── data/                          # PDF textbooks (NOT committed — see below)
-├── cache/                         # Auto-generated embedding cache
-└── results/                       # Auto-generated Excel experiment log
+├── cache/                        
+└── results/                      
 ```
 
 ---
@@ -64,8 +64,8 @@ rag-knee-arthroplasty/
 
 > **Requires**: A100 / H100 GPU · MedGemma licence accepted on HF
 
-1. Open `notebooks/colab_pipeline.ipynb` in Colab.
-2. Set `HF_TOKEN` as a Colab Secret (or paste it in Block 2).
+1. Open `notebooks/RAG_LLM_FINAL_IITG_AIIMS.ipynb` in Colab.
+2. Set `HF_TOKEN` as a Colab Secret .
 3. Place your PDFs in Google Drive at the path configured in `src/config.py`  
    *or* update `GDRIVE_DATA_FOLDER_ID` to your own Drive folder.
 4. Run all cells — the notebook handles cloning, installing, downloading, and evaluation automatically.
@@ -76,7 +76,7 @@ rag-knee-arthroplasty/
 
 ```bash
 # 1. Clone
-git clone https://github.com/YOUR_USERNAME/rag-knee-arthroplasty.git
+git clone https://github.com/Rushikhot/rag-knee-arthroplasty.git
 cd rag-knee-arthroplasty
 
 # 2. Install (Python 3.10+, CUDA GPU strongly recommended)
@@ -109,7 +109,7 @@ Results are saved to `results/experiments.xlsx`.
 | 7 | Total Knee Arthroplasty (2e) | Richard D. Scott | 2015 |
 | 8 | Unicompartmental Knee Arthroplasty | Tad L. Gerlinger | 2020 |
 
-> **Note**: PDFs are not committed to this repository due to copyright. Please obtain them through your institution's library access.
+> **Note**: PDFs are not committed to this repository due to copyright.
 
 ---
 
@@ -159,10 +159,10 @@ If you use this code in your research, please cite:
 ```bibtex
 @misc{knee_arthroplasty_rag_2025,
   title   = {RAG-Augmented Clinical Q\&A for Knee Arthroplasty},
-  author  = {[Your Name] and [Co-authors]},
-  year    = {2025},
+  author  = {Rushikesh Khot, Dr.Teena sharma , Dr.Plaban Nath Chowdhury  Dr.Rajesh malhotra },
+  year    = {2026},
   institution = {IIT Guwahati, AIIMS},
-  url     = {https://github.com/YOUR_USERNAME/rag-knee-arthroplasty}
+  url     = {https://github.com/Rushikhot/rag-knee-arthroplasty}
 }
 ```
 
