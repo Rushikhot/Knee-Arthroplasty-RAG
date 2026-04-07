@@ -1,4 +1,4 @@
-# Knee Arthroplasty RAG Pipeline
+# Evaluation of ArthroRAG: A Retrieval-Augmented Generation–Enabled Large Language Model for Clinical Decision Making in Arthroplasty
 
 > **RAG-augmented clinical Q&A for Knee Arthroplasty** 
 > Embedding: `BAAI/bge-m3` · Reranker: `BAAI/bge-reranker-v2-m3` · LLM: `google/medgemma-27b-it`
